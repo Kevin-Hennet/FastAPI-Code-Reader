@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- html setup and linking the css and javascript files -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="script.js" defer></script>
+    <title>Code Evaluator</title>
+</head>
+<body>
+
+    <h1>Code Evaluator!</h1>
+    <!-- interactive area where the user could input their code, select a language via dropdown and 
+    submit their options -->
+    <form>
+        <label for="code-editor">Enter your code:</label>
+        <textarea 
+            id="code-editor" 
+            name="code" 
+            rows="10" 
+            cols="80" 
+            placeholder="Write your code here..."
+            spellcheck="false"
+            autocorrect="off"
+            autocapitalize="off">
+        </textarea>
+        <label for="Languages">Choose a programming language and version:</label>
+        <select id="language" name="Languages">
+           <option value="python3.9">Python 3.9</option>
+            <option value="python3.11">Python 3.11</option>
+            <option value="python3.12">Python 3.12</option>
+            <option value="python3.13">Python 3.13</option>
+            <option value="node18">Node.js 18</option>
+            <option value="node20">Node.js 20</option>
+            <option value="node24">Node.js 24</option>
+        </select>
+        <button class="custom-button" type="button" onclick="runCode()">Submit</button>
+
+    </form>
+    
+    <!-- output where the result of the code is displayed-->
+    <div id="output"></div>
+    <!-- where the past runs are displayed -->
+    <div id="container"></div>
+    
+    
+    
+</body>
+</html>

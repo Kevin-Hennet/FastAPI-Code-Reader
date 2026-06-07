@@ -1,0 +1,154 @@
+textarea {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  tab-size: 4; /* Controls the width of the tab character */
+  resize: vertical; /* Prevents breaking the layout horizontally */
+  white-space: pre; /* Preserves spaces and tabs without wrapping */
+  overflow: auto;
+}
+#output {
+font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  tab-size: 4; /* Controls the width of the tab character */
+  resize: vertical; /* Prevents breaking the layout horizontally */
+  white-space: pre; /* Preserves spaces and tabs without wrapping */
+  overflow: auto;
+}
+/* Opt-in to the modern customizable select feature */
+select, ::picker(select) {
+  appearance: base-select;
+}
+
+/* Style the primary closed container */
+select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #ffffff;
+  font-family: inherit;
+}
+
+/* Style the individual option rows */
+select option {
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+/* Style the option when hovered or focused */
+select option:hover {
+  background-color: #f0f0f0;
+}
+/* CSS Styling */
+.custom-button {
+  /* 1. Reset default browser styles */
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+
+  /* 2. Core Dimensions & Geometry */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 6px;
+  
+  /* 3. Aesthetics & Colors */
+  background-color: #007bff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  
+  /* 4. Smooth Animations */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* 5. Interactive Pseudo-classes */
+.custom-button:hover {
+  background-color: #0056b3; /* Darkens on hover */
+}
+
+.custom-button:focus-visible {
+  outline: 3px solid #99c2ff; /* Highly visible keyboard focus indicator */
+  outline-offset: 2px;
+}
+
+.custom-button:active {
+  transform: scale(0.98); /* Subtle pressed contraction effect */
+}
+label {
+  display: block;      /* Forces the input field to drop to a new line */
+  margin-bottom: 8px;  /* Creates spacing between the label and its input */
+  width: 100%;         /* Allows full-width behavior */
+}
+label {
+  display: inline-block;
+  width: 120px;        /* Fixes the width so all inputs line up perfectly */
+  text-align: right;   /* Aligns text clean against the input field */
+  margin-right: 10px;  /* Spacing between text and the input box */
+}
+label.required:after {
+  content: " *";
+  color: #ff0000;      /* Red color for danger/requirement alerts */
+}
+label {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;    /* Makes the text bold and clear */
+  color: #333333;      /* Improves contrast against a white background */
+}
+/* Style the main layout container */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  
+  /* Keeps the header locked at the top of the page when scrolling */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.5rem;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+/* Modern method: Style all heading levels (H1-H6) together */
+:heading {
+  color: #1a202c;
+  letter-spacing: -0.02em;
+}
+#container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.run-card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.run-card p {
+    margin: 4px 0;
+    color: #d4d4d4;
+}
