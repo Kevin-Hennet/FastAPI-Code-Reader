@@ -4,14 +4,17 @@ from app.schemas import ExecutionResult, CodeRequest, CodeClassification
 from app.storage import load_data, save_data
 import uuid
 import os 
+import requests
 
 # router setup
 router = APIRouter(prefix="/api/v1/evaluator", tags=["Evaluate"])
 # Helps compile the language chosen by the user to produce an output 
-import os
+
 # used to differientiate with different filepaths for nodejs
 IS_DOCKER = os.environ.get("RUNNING_IN_DOCKER", False)
 # language options (works with the schemas)
+""" 
+old design (will be changed into the different runtime modules)
 LANGUAGE_VERSIONS = {
     "python3.9": ["python3.9", "-c"],
     "python3.11": ["python3.11", "-c"],
@@ -21,6 +24,12 @@ LANGUAGE_VERSIONS = {
     "node20": ["/root/.nvm/versions/node/v20.20.2/bin/node", "-e"],
     "node24": ["/root/.nvm/versions/node/v24.16.0/bin/node", "-e"],
 }
+"""
+RUNTIME_PORTS = {
+    "python3.13": 8001,
+    "node24": 8002
+}
+
 # get all runs 
 @router.get("", response_model=list[ExecutionResult])
 def get_runs():
@@ -42,26 +51,19 @@ def get_run(run_id: str):
 @router.post("/execute", response_model=ExecutionResult, status_code=status.HTTP_200_OK)
 def execute_code(payload: CodeRequest):
     history = load_data()
-    # recieves language chosen by the user 
-    command = LANGUAGE_VERSIONS.get(payload.language)
-    if command is None:
+    # updated so runtime module can be accessed 
+    port = RUNTIME_PORTS.get(payload.language)
+    if port is None:
         raise HTTPException(status_code=400, detail="Unsupported language version")
-    code = command + [payload.code]
-    try:
-        result = subprocess.run(
-            code,
-            capture_output=True,  # grab the output instead of printing to terminal
-            text=True,            # return strings not bytes
-            timeout=5             # kill it after 5 seconds
-            )
-    except subprocess.TimeoutExpired:
-        raise HTTPException(status_code=408, detail="Execution timed out after 5 seconds")
-    #output 
+    # new response format by taking the runtime module langauge version port input 
+    response = requests.put(f"http://localhost:{port}/execute", json={"code": payload.code})
+    result = response.json()
+    # following the response schema
     product = {
-    "id": str(uuid.uuid4()),
-    "output": result.stdout,
-    "error": result.stderr,
-    "language": payload.language
+        "id": str(uuid.uuid4()),
+        "output": result["output"],
+        "error": result["error"],
+        "language": payload.language
     }
     history.append(product)
     save_data(history)

@@ -4,7 +4,7 @@ from app.testing.evaluate import router as code_router
 # app creation 
 app = FastAPI(
     title="Code analyzer API",
-    version="0.1.0",
+    version="0.2.0",
     description="Users can input their code and select a specific language and version and the API will provide an output"
 )
 # for future when a front end is made for better ui 
