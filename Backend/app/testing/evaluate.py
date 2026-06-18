@@ -13,22 +13,16 @@ router = APIRouter(prefix="/api/v1/evaluator", tags=["Evaluate"])
 # used to differientiate with different filepaths for nodejs
 IS_DOCKER = os.environ.get("RUNNING_IN_DOCKER", False)
 # language options (works with the schemas)
-""" 
-old design (will be changed into the different runtime modules)
-LANGUAGE_VERSIONS = {
-    "python3.9": ["python3.9", "-c"],
-    "python3.11": ["python3.11", "-c"],
-    "python3.12": ["python3.12", "-c"],
-    "python3.13": ["python3.13", "-c"],
-    "node18": ["/root/.nvm/versions/node/v18.20.8/bin/node", "-e"],
-    "node20": ["/root/.nvm/versions/node/v20.20.2/bin/node", "-e"],
-    "node24": ["/root/.nvm/versions/node/v24.16.0/bin/node", "-e"],
-}
-"""
+
 # runtime port dictionary 
 RUNTIME_PORTS = {
-    "python3.13": 8001,
-    "node24": 8002
+    "python3.9": 8001,
+    "python3.11": 8002,
+    "python3.12": 8003,
+    "python3.13": 8004,
+    "node18": 8005,
+    "node20": 8006,
+    "node24": 8007
 }
 
 # get all runs 

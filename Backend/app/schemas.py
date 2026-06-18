@@ -2,15 +2,14 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from typing import Optional
 
-# allowed languages (currently only the versions I have installed on my system)
+#allowed languages 
 class Language(str, Enum):
-    # currently only python 3.13 and node24 are supported 
-    #python39 = "python3.9"
-    #python311 = "python3.11"
-    #python312 = "python3.12"
+    python39 = "python3.9"
+    python311 = "python3.11"
+    python312 = "python3.12"
     python313 = "python3.13"
-    #node18 = "node18"
-    #node20 = "node20"
+    node18 = "node18"
+    node20 = "node20"
     node24 = "node24"
 # how the user is supposed to enter the code (have to use \n line breaks to differientiate the lines of code)
 class CodeRequest(BaseModel):
