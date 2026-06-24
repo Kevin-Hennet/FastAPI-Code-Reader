@@ -5,46 +5,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
     <title>Code Evaluator</title>
 </head>
 <body>
+  <div class="container">
+    
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <div class="brand-dot"></div>
+        Code Evaluator
+      </div>
+      <div class="navbar-links">
+        <span class="nav-badge">v2.0</span>
+        <a class="nav-link" href="https://github.com/Kevin-Hennet">GitHub</a>
+        <a class="nav-link" href="https://github.com/Kevin-Hennet/FastAPI-Code-Reader">Docs</a>
+      </div>
+    </nav>
+    <div class="page-header">
+            <div class="page-title">
+                <span class="typing-text">Run your code!</span>
+                <span class="cursor"></span>
+            </div>
+            <div class="page-subtitle"> Select a langauge, paste your code, and execute instantly</div>
+        </div>
+    <div class="main">
+      <div class="editor panel">
+        <div class="panel-header">
+          <span class="panel-title">Editor</span>
+          <div class="panel-actions">
+            <select class = "language" id="language">
+              <option value="python3.9">Python 3.9</option>
+              <option value="python3.11">Python 3.11</option>
+              <option value="python3.12">Python 3.12</option>
+              <option value="python3.13">Python 3.13</option>
+              <option value="node18">Node.js 18</option>
+              <option value="node20">Node.js 20</option>
+              <option value="node24">Node.js 24</option>
+            </select>
+            <button class="run" type="button" onclick="runCode()">Run</button>
+          </div>
+        </div>
+        <div class="panel-body">
+            <textarea 
+                id="code-editor" 
+                name="code" 
+                placeholder="Write your code here..."
+                spellcheck="false"
+                autocorrect="off"
+                autocapitalize="off">
+          </textarea>
+        </div>
+        <div class="status-bar">
+          <div class="status-dot"></div>
+          <span class="status-text" id="status-text">Ready</span>
+          <span class="language-status" id = "language-status"></span>
+        </div>
+      </div>
 
-    <h1>Code Evaluator!</h1>
-    <!-- interactive area where the user could input their code, select a language via dropdown and 
-    submit their options -->
-    <form>
-        <label for="code-editor">Enter your code:</label>
-        <textarea 
-            id="code-editor" 
-            name="code" 
-            rows="10" 
-            cols="80" 
-            placeholder="Write your code here..."
-            spellcheck="false"
-            autocorrect="off"
-            autocapitalize="off">
-        </textarea>
-        <label for="Languages">Choose a programming language and version:</label>
-        <select id="language" name="Languages">
-            <option value="python3.9">Python 3.9</option>
-            <option value="python3.11">Python 3.11</option>
-            <option value="python3.12">Python 3.12</option>
-            <option value="python3.13">Python 3.13</option>
-            <option value="node18">Node.js 18</option>
-            <option value="node20">Node.js 20</option>
-            <option value="node24">Node.js 24</option>
-        </select>
-        <button class="custom-button" type="button" onclick="runCode()">Submit</button>
-        
-    </form>
-    
-    <!-- output where the result of the code is displayed-->
-    <div id="output"></div>
-    <!-- where the past runs are displayed -->
-    <div id="container"></div>
-    
-    
-    
+      <div class="output panel">
+        <div class="panel-header">
+          <span class="panel-title">Output</span>
+        </div>
+        <div class="panel-body" id="output">
+            <span class="output-placeholder" id="output-placeholder">Output will appear here...</span>
+            <div id="output-result" style="display:none;">
+                <div class="output-stdout" id="stdout"></div>
+                <div class="output-stderr" id="stderr"></div>
+            </div>
+        </div>
+        <div class="status-bar">
+          <div class="status-dot" id="output-dot" style="background:#333"></div>
+          <span class="status-text" id="output-status">Waiting</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="history-section">
+      <div class="history-header">
+        <span class="history-title">Execution History</span>
+        <button class="clear-btn" type="button">Clear All</button>
+      </div>
+      <div class="history-grid" id="history"></div>
+    </div>
+
+  </div>
 </body>
 </html>

@@ -28,11 +28,19 @@ function getLanguage() {
     const select = document.getElementById('language');
 
     const languageResult = select.value;
+    document.getElementById('language-status').innerText = languageResult;
     return languageResult;
 }
 // this function runs the code by calling the post method via fetch and displays the output
 async function runCode() {
-    document.getElementById('output').innerText = 'Running...';
+    document.getElementById('output-status').innerText = 'Running...';
+    document.getElementById('output-dot').style.background = '#0070f3';
+    
+    const placeholder = document.getElementById('output-placeholder');
+    const result = document.getElementById('output-result');
+    const stdout = document.getElementById('stdout');
+    const stderr = document.getElementById('stderr');
+
     try {
         const response = await fetch("http://localhost:8000/api/v1/evaluator/execute", {
             method: "POST",
@@ -40,11 +48,20 @@ async function runCode() {
             body: JSON.stringify({ code: getCode(), language: getLanguage() })
         });
         const data = await response.json();
-        document.getElementById('output').innerText = 
-            data.output + (data.error ? '\nError: ' + data.error : '');
+        placeholder.style.display = 'none';
+        result.style.display = 'block';
+        stdout.innerText = data.output || '';
+        stderr.innerText = data.error ? 'Error: ' + data.error : '';
+        document.getElementById('output-status').innerText = 'Done';
+        document.getElementById('output-dot').style.background = '#c3e88d';
         await displayRuns();
     } catch (error) {
-        document.getElementById('output').innerText = 'Error: Could not connect to server. Is FastAPI running?';
+        placeholder.style.display = 'none';
+        result.style.display = 'block';
+        stdout.innerText = '';
+        stderr.innerText = 'Error: Could not connect to server. Is FastAPI running?';
+        document.getElementById('output-status').innerText = 'Error';
+        document.getElementById('output-dot').style.background = '#f07178';
     }
 }
 // this is the delete function which calls the delete endpoint via specific id via fetch 
@@ -103,27 +120,37 @@ async function getHistory() {
 // label input favorite button and delete button 
 async function displayRuns() {
     const runs = await getHistory();
-    const container = document.getElementById("container");
+    const container = document.getElementById("history"); // ← was "history"
     container.innerHTML = "";
     for (const run of runs) {
         const runDiv = document.createElement('div');
         runDiv.className = 'run-card';
         runDiv.innerHTML = `
-            <p>ID: ${run.id}</p>
-            <p>Language: ${run.language}</p>
-            <p>Output: ${run.output}</p>
-            <p>Label: ${run.label || 'No label'}</p>
-            <input type="text" id="label-${run.id}" placeholder="Add label...">
-            <button onclick="updateRun('${run.id}')" class="custom-button" type="button">Save Label</button>
-            <button onclick="toggleFavorite('${run.id}', ${run.favorited})"class="custom-button" type="button">
-                ${run.favorited ? '⭐' : '☆'} 
-            </button>
-            <button onclick="deleteRun('${run.id}')"class="custom-button" type="button">Delete</button>
+            <div class="run-card-header">
+                <span class="run-lang-badge">${run.language}</span>
+                <div class="run-card-actions">
+                    <button onclick="toggleFavorite('${run.id}', ${run.favorited})" class="icon-btn ${run.favorited ? 'star' : ''}" type="button">
+                        ${run.favorited ? '⭐' : '☆'}
+                    </button>
+                    <button onclick="deleteRun('${run.id}')" class="icon-btn danger" type="button">✕</button>
+                </div>
+            </div>
+            <div class="run-output-preview ${run.error ? 'error' : 'success'}"
+                onclick="this.classList.toggle('expanded')">
+                ${run.output || run.error || 'No output'}
+            </div>
+            <p style="font-size:11px; color:#444; margin-bottom:8px;">
+                Label: ${run.label || 'No label'}
+            </p>
+            <div class="run-label-row">
+                <input type="text" id="label-${run.id}" class="run-label-input" placeholder="Add label...">
+                <button onclick="updateRun('${run.id}')" class="save-label-btn" type="button">Save</button>
+            </div>
+            <div class="run-id">${run.id}</div>
         `;
         container.appendChild(runDiv);
     }
-    
 }
 
 
-displayRuns();327 
+displayRuns();
