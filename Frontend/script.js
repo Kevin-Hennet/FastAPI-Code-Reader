@@ -14,8 +14,6 @@ textarea.addEventListener('keydown', function(e) {
         this.selectionStart = this.selectionEnd = start + 1; 
     }
 }); 
-
-
 // this gets the code the user submits in the input area
 function getCode(){
     const textarea = document.getElementById('code-editor');
@@ -24,6 +22,7 @@ function getCode(){
     return codeResult;
 }
 // this gets the language the user selects in the dropdown 
+// also adds the version the user selected to the status bar
 function getLanguage() {
     const select = document.getElementById('language');
 
@@ -32,7 +31,13 @@ function getLanguage() {
     return languageResult;
 }
 // this function runs the code by calling the post method via fetch and displays the output
+// also calls the editor pulse and spin animations 
 async function runCode() {
+    const btn = document.getElementById('run');
+    document.querySelector('.editor').classList.add('editor-pulsing');
+    btn.classList.add('loading');
+    btn.disabled = true;
+    
     document.getElementById('output-status').innerText = 'Running...';
     document.getElementById('output-dot').style.background = '#0070f3';
     
@@ -50,6 +55,9 @@ async function runCode() {
         const data = await response.json();
         placeholder.style.display = 'none';
         result.style.display = 'block';
+        result.classList.remove('output-visible');
+        result.offsetHeight;
+        result.classList.add('output-visible');
         stdout.innerText = data.output || '';
         stderr.innerText = data.error ? 'Error: ' + data.error : '';
         document.getElementById('output-status').innerText = 'Done';
@@ -62,6 +70,10 @@ async function runCode() {
         stderr.innerText = 'Error: Could not connect to server. Is FastAPI running?';
         document.getElementById('output-status').innerText = 'Error';
         document.getElementById('output-dot').style.background = '#f07178';
+    } finally {
+        btn.classList.remove('loading'); // ← always runs, success or error
+        btn.disabled = false;
+        document.querySelector('.editor').classList.remove('editor-pulsing');
     }
 }
 // this is the delete function which calls the delete endpoint via specific id via fetch 
@@ -116,8 +128,19 @@ async function getHistory() {
         document.getElementById("output").innerText = "Error: could not connect to server. Is FastAPI running?";
     }
 }
+// activiates the clearall button to clear the entire history 
+async function clearHistory() {
+    const runs = await getHistory();
+    for (const run of runs) {
+        await fetch(`http://localhost:8000/api/v1/evaluator/${run.id}`, {
+            method: "DELETE"
+        });
+    }
+    await displayRuns();
+}
 // displays all the runs in the history through innerHTML formatting and adds the update run
 // label input favorite button and delete button 
+
 async function displayRuns() {
     const runs = await getHistory();
     const container = document.getElementById("history"); // ← was "history"
@@ -152,5 +175,14 @@ async function displayRuns() {
     }
 }
 
+window.addEventListener('load', () => {
+    const editor = document.querySelector('.editor');
+    setTimeout(() => {
+        editor.classList.add('editor-pulsing');
+        setTimeout(() => {
+            editor.classList.remove('editor-pulsing');
+        }, 1500); 
+    }, 500); 
+});
 
 displayRuns();

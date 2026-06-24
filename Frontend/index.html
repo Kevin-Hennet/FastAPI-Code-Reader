@@ -11,7 +11,7 @@
 </head>
 <body>
   <div class="container">
-    
+    <!-- navbar setup -->
     <nav class="navbar">
       <div class="navbar-brand">
         <div class="brand-dot"></div>
@@ -23,6 +23,7 @@
         <a class="nav-link" href="https://github.com/Kevin-Hennet/FastAPI-Code-Reader">Docs</a>
       </div>
     </nav>
+    <!-- header -->
     <div class="page-header">
             <div class="page-title">
                 <span class="typing-text">Run your code!</span>
@@ -30,6 +31,7 @@
             </div>
             <div class="page-subtitle"> Select a langauge, paste your code, and execute instantly</div>
         </div>
+    <!-- houses the editor grid and the output panel -->
     <div class="main">
       <div class="editor panel">
         <div class="panel-header">
@@ -44,7 +46,13 @@
               <option value="node20">Node.js 20</option>
               <option value="node24">Node.js 24</option>
             </select>
-            <button class="run" type="button" onclick="runCode()">Run</button>
+            <button class="run" id="run" type="button" onclick="runCode()">
+                <span class="run-text">Run</span>
+                <div class="spinner"></div>
+
+            </button>
+
+
           </div>
         </div>
         <div class="panel-body">
@@ -70,7 +78,7 @@
         </div>
         <div class="panel-body" id="output">
             <span class="output-placeholder" id="output-placeholder">Output will appear here...</span>
-            <div id="output-result" style="display:none;">
+            <div class= "output-result" id="output-result" style="display:none;">
                 <div class="output-stdout" id="stdout"></div>
                 <div class="output-stderr" id="stderr"></div>
             </div>
@@ -82,12 +90,13 @@
       </div>
 
     </div>
-
+    <!-- history container -->
     <div class="history-section">
       <div class="history-header">
         <span class="history-title">Execution History</span>
-        <button class="clear-btn" type="button">Clear All</button>
+        <button class="clear-btn" type="button" onclick="clearHistory()">Clear All</button>
       </div>
+      <!-- where the JS function will add all the runcards -->
       <div class="history-grid" id="history"></div>
     </div>
 

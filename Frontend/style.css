@@ -1,4 +1,5 @@
 :root {
+    /* basic vars */
     --bg: #0a0a0a;
     --surface: #111;
     --border: #222;
@@ -11,16 +12,19 @@
     --font-mono: 'Courier New', Courier, monospace;
 }
 * {
+  /* basic styling */ 
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 body {
+  /* body styling */
     font-family: var(--font-sans);
     background: var(--bg);
     color: var(--text);
 }
 .navbar {
+  /* navbar base styling */
     display: flex;
     justify-content: space-between;  /* spreads items left and right */
     align-items: center;             /* centers them vertically */
@@ -30,6 +34,7 @@ body {
     background: #0a0a0a;
 }
 .navbar-brand {
+  /* title styling */
   display: flex;
   align-items: center;
   gap: 8px;
@@ -38,6 +43,7 @@ body {
   color: var(--text);
 }
 .brand-dot {
+  /* bullet pt stlying */
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -45,11 +51,13 @@ body {
   background: var(--accent);
 }
 .navbar-links {
+  /* links */
   display :flex;
   align-items: center;
   gap: 16px;
 }
 .nav-badge {
+  /* version logo styling */
   font-size: 11px;
   background: var(--surface);
   border: 0.5px solid var(--border);
@@ -58,6 +66,7 @@ body {
   border-radius: 20px;
 }
 .nav-link {
+  /* individual link styling */
   display: flex;
   align-items: center;
   gap: 4px;
@@ -67,34 +76,39 @@ body {
   transition: color 0.15s ease;
 }
 .nav-link:hover {
+  /* turns the link text white when hovered on */
   color: var(--text);
 }
 .page-header {
+  /* header */
   margin-bottom:  28px;
+  padding: 32px 24px 0 24px;
 }
 .page-title {
+  /* title */
   display: flex;
   align-items:center;
   font-size: 22px;
   font-weight: 500;
   color: var(--text);
 }
-.typing-text { 
+.typing-text {
+  /* header typing animation styling */
   font-family: monospace; 
   white-space: nowrap; 
   overflow: hidden; 
   width: 0; 
   max-width: max-content; 
   
-  /* FIXED: Adjusted characters to match 'to' keyframe (13 characters) */
-  animation: typing 2.5s steps(13) forwards; 
+
+  animation: typing 2.5s steps(15) forwards; 
 }
 
 .cursor { 
   display: inline-block; 
   width: 2px; 
   height: 20px; 
-  background: #0070f3; 
+  background: var(--accent); 
   border-radius: 1px; 
   vertical-align: middle;
 
@@ -131,12 +145,14 @@ body {
     grid-template-columns: 1fr 1fr;  /* two equal columns */
     gap: 16px;
     margin-bottom: 16px;
+    padding: 0 24px;
 }
 .panel {
   background: var(--surface);
   border: 0.5px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
 }
 .panel-header {
@@ -172,16 +188,39 @@ body {
 }
 .run {
   display: flex;
+  position: relative;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 500;
   background: var(--accent);
-  color: var(--text);
   border: none;
   border-radius: 6px;
   padding: 5px 6px;
   cursor: pointer;
+}
+.run-text {
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+}
+.spinner {
+  display: none; 
+  width: 16px;
+  height: 16px;
+  border: 3px solid var(--text);
+  border-top-color: var(--surface);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.run.loading .run-text{
+  display: none;
+}
+.run.loading .spinner {
+  display: inline-block;
 }
 .run:hover {
     background: #0060df;
@@ -200,29 +239,20 @@ body {
   position: relative;
   color: #ccc;
 }
-.editor {
-  animation: edgePulse 1.5s ease-in-out 2;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-in-out;
-  animation-delay: 0s;
-  animation-iteration-count: 2;
-  animation-direction: normal;
-  animation-fill-mode: none;
-  animation-play-state: running;
-  animation-name: edgePulse;
-  animation-timeline: auto;
-  animation-range-start: normal;
-  animation-range-end: normal;
+
+.editor-pulsing {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px #0070f330;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
 }
 @keyframes edgePulse  {
-  0%, 100% {
-    border-color: #222;
-  }
-  50% {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 1px #0070f330;
-  }
+  0% {border-color: #222; }
+  50% {border-color: var(--accent); box-shadow: 0 0 0 1px #0070f330; }
+  100% { border-color: var(--accent); box-shadow: 0 0 0 1px #0070f330; }
+  
 }
+
 #code-editor {
     font-family: var(--font-mono);
     flex: 1;
@@ -237,7 +267,14 @@ body {
     position: relative;
     background: var(--surface);
     border: none;
-
+    
+}
+.output.panel {
+  display: flex;
+  flex-direction: column;
+}
+.output .panel-body {
+  flex: 1;
 }
 .status-bar {
   display: flex;
@@ -268,7 +305,19 @@ body {
     margin: 0 auto;
     padding: 32px 24px;
 }
-
+.output-visible {
+  animation:  fadeInUp 0.4s ease-out forwards;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .output-stdout {
     color: var(--success);  /* green #c3e88d */
     font-family: var(--font-mono);
@@ -289,6 +338,8 @@ body {
 
 .history-section {
     margin-top: 24px;
+    padding: 0 24px;
+    padding-bottom: 32px;
 }
 .history-header {
     display: flex;
@@ -407,11 +458,18 @@ body {
 }
 .clear-btn {
     font-size: 12px;
-    color: #444;
-    background: none;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--error);
     border: 0.5px solid #222;
     border-radius: 6px;
     padding: 4px 10px;
     cursor: pointer;
     transition: color 0.15s, border-color 0.15s;
+}
+.clear-btn:hover {
+    background: #8B0000;
+}
+.run:active {
+    transform: scale(0.97);
 }
