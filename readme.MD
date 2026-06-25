@@ -22,8 +22,8 @@ Runtime Services (inside Docker, not publicly accessible)
     ├── python313 runtime → localhost:8004
     ├── node18    runtime → localhost:8005
     ├── node20    runtime → localhost:8006
-    └── node24    runtime → localhost:8007
-    └── java21    runtime → localhost:8008
+    ├── node24    runtime → localhost:8007
+    ├── java21    runtime → localhost:8008
     └── php82     runtime → localhost:8008
          ↓
     subprocess execution
@@ -155,6 +155,8 @@ INFO success: python313 entered RUNNING state
 INFO success: node18 entered RUNNING state
 INFO success: node20 entered RUNNING state
 INFO success: node24 entered RUNNING state
+INFO success: java21 entered RUNNING state
+INFO success: php82 entered RUNNING state
 ```
 
 **4. Serve the frontend:**
