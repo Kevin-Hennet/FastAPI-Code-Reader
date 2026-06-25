@@ -28,6 +28,13 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | b
     nvm install 18 && \
     nvm install 20 && \
     nvm install 24
+# install Java 21 and PHP 8.2 
+RUN add-apt-repository -y ppa:ondrej/php && \
+    apt-get update && \
+    apt-get install -y \
+    openjdk-21-jdk \
+    php8.2 \
+    php8.2-cli
 
 # Install Supervisor and clean up caches to keep the image slim
 RUN apt-get update && apt-get install -y \
@@ -51,6 +58,8 @@ RUN pip install -r /app/runtimes/python313/requirements.txt
 RUN pip install -r /app/runtimes/node18/requirements.txt
 RUN pip install -r /app/runtimes/node20/requirements.txt
 RUN pip install -r /app/runtimes/node24/requirements.txt
+RUN pip install -r /app/runtimes/java21/requirements.txt
+RUN pip install -r /app/runtimes/php82/requirements.txt
 
 # copy supervisord config
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf

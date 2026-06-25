@@ -146,6 +146,7 @@ body {
     gap: 16px;
     margin-bottom: 16px;
     padding: 0 24px;
+    align-items: start;
 }
 .panel {
   background: var(--surface);
@@ -275,6 +276,8 @@ body {
 }
 .output .panel-body {
   flex: 1;
+  max-height: 500px;
+  overflow-y: auto;
 }
 .status-bar {
   display: flex;

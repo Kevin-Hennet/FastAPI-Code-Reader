@@ -11,6 +11,8 @@ class Language(str, Enum):
     node18 = "node18"
     node20 = "node20"
     node24 = "node24"
+    java21 = "java21"
+    php82 = "php8.2"
 # how the user is supposed to enter the code (have to use \n line breaks to differientiate the lines of code)
 class CodeRequest(BaseModel):
     code: str = Field(min_length=1)

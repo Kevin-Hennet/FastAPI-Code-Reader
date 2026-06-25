@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, status
-import subprocess
 from app.schemas import ExecutionResult, CodeRequest, CodeClassification
 from app.storage import load_data, save_data
 import uuid
@@ -22,7 +21,10 @@ RUNTIME_PORTS = {
     "python3.13": 8004,
     "node18": 8005,
     "node20": 8006,
-    "node24": 8007
+    "node24": 8007,
+    "java21": 8008,
+    "php8.2": 8009
+
 }
 
 # get all runs 
@@ -50,7 +52,7 @@ def execute_code(payload: CodeRequest):
     port = RUNTIME_PORTS.get(payload.language)
     if port is None:
         raise HTTPException(status_code=400, detail="Unsupported language version")
-    # new response format by taking the runtime module langauge version port input 
+    # new response format by taking the runtime module langauge version port input
     response = requests.put(f"http://localhost:{port}/execute", json={"code": payload.code})
     result = response.json()
     # following the response schema

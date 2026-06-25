@@ -23,6 +23,8 @@ Runtime Services (inside Docker, not publicly accessible)
     ├── node18    runtime → localhost:8005
     ├── node20    runtime → localhost:8006
     └── node24    runtime → localhost:8007
+    └── java21    runtime → localhost:8008
+    └── php82     runtime → localhost:8008
          ↓
     subprocess execution
          ↓
@@ -37,6 +39,8 @@ Runtime Services (inside Docker, not publicly accessible)
 - Support for multiple language versions:
   - Python 3.9, 3.11, 3.12, 3.13
   - Node.js 18, 20, 24
+  - Java 21
+  - PHP 8.2
 - Isolated runtime services per language/version for improved security
 - Execution history saved across sessions
 - Label, favorite, and note individual runs
@@ -80,7 +84,13 @@ FastAPI-Code-Reader/
 │       ├── node20/
 │       │   ├── main.py
 │       │   └── requirements.txt
-│       └── node24/
+│       ├── node24/
+│       │   ├── main.py
+│       │   └── requirements.txt
+│       ├── java21/
+│       │   ├── main.py
+│       │   └── requirements.txt
+│       └── php82/
 │           ├── main.py
 │           └── requirements.txt
 └── Frontend/
@@ -212,6 +222,8 @@ python3 -m http.server 3000
 | `PUT` | `/execute` | node18 | 8005 |
 | `PUT` | `/execute` | node20 | 8006 |
 | `PUT` | `/execute` | node24 | 8007 |
+| `PUT` | `/execute` | java21 | 8008 |
+| `PUT` | `/execute` | php82  | 8009 |
 
 ### Example Request
 
@@ -256,7 +268,7 @@ For a fully hardened production deployment:
 
 ## Adding New Language Versions
 
-To add a new language/version (e.g. Java 21):
+To add a new language/version (e.g. C++ 26):
 
 1. Create `runtimes/{version}/main.py` with the execution logic for that version
 2. Create `runtimes/{version}/requirements.txt` with `fastapi` and `uvicorn`
@@ -271,7 +283,6 @@ To add a new language/version (e.g. Java 21):
 
 ## Future Improvements
 
-- Java language support
 - User input support via stdin
 - React frontend
 - Per-container runtime isolation (Docker Compose)
