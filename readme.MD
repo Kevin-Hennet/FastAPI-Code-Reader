@@ -254,7 +254,7 @@ curl -X POST http://localhost:8000/api/v1/evaluator/execute \
 ## Security Notes
 
 - Each language/version runs as an isolated process with its own working directory — exploiting one runtime does not give direct access to the main app's files or other runtimes
-- Runtime ports (8001–8007) are internal to the Docker container only — not accessible from outside
+- Runtime ports (8001–8009) are internal to the Docker container only — not accessible from outside
 - All executions have a 5 second timeout to prevent infinite loops
 - Stderr is captured and returned rather than crashing the server
 - `allow_origins=["*"]` is set for development — restrict to your frontend URL in production
